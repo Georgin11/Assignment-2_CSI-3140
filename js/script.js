@@ -3,7 +3,9 @@ let rollCount = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     const rollButton = document.getElementById('roll-button');
+    const scoreButton = document.getElementById('score-button');
     rollButton.addEventListener('click', rollDice);
+    scoreButton.addEventListener('click', scoreDice);
     updateDice();
 });
 
@@ -17,6 +19,9 @@ function rollDice() {
         rollCount++;
         updateDice();
     }
+    if (rollCount === 3) {
+        document.getElementById('score-button').disabled = false;
+    }
 }
 
 function updateDice() {
@@ -29,4 +34,42 @@ function updateDice() {
 
 function toggleHold(die, index) {
     die.classList.toggle('held');
+}
+
+function scoreDice() {
+    const categories = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes'];
+    categories.forEach(category => {
+        const scoreElement = document.getElementById(`score-${category}`);
+        if (scoreElement.textContent === '-') {
+            const score = calculateScore(category);
+            scoreElement.textContent = score;
+        }
+    });
+    calculateTotalScore();
+    rollCount = 0;
+    document.getElementById('score-button').disabled = true;
+    resetDice();
+}
+
+function calculateScore(category) {
+    const categoryNumber = categories.indexOf(category) + 1;
+    return dice.filter(die => die === categoryNumber).reduce((a, b) => a + b, 0);
+}
+
+function calculateTotalScore() {
+    const scoreElements = document.querySelectorAll('#scoreboard td[id^="score-"]');
+    let totalScore = 0;
+    scoreElements.forEach(scoreElement => {
+        if (scoreElement.textContent !== '-') {
+            totalScore += parseInt(scoreElement.textContent);
+        }
+    });
+    document.getElementById('total-score').textContent = totalScore;
+}
+
+function resetDice() {
+    dice = [0, 0, 0, 0, 0];
+    updateDice();
+    const diceElements = document.querySelectorAll('.dice');
+    diceElements.forEach(die => die.classList.remove('held'));
 }
