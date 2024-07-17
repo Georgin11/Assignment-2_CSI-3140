@@ -13,23 +13,57 @@
     <main>
         <section id="game-area">
             <div id="dice-container">
-                <div class="dice" id="die1"></div>
-                <div class="dice" id="die2"></div>
-                <div class="dice" id="die3"></div>
-                <div class="dice" id="die4"></div>
-                <div class="dice" id="die5"></div>
+                <div class="dice" id="die1">0</div>
+                <div class="dice" id="die2">0</div>
+                <div class="dice" id="die3">0</div>
+                <div class="dice" id="die4">0</div>
+                <div class="dice" id="die5">0</div>
             </div>
             <div id="buttons-container">
                 <button id="roll-button">Roll Dice</button>
+                <button id="score-button" disabled>Score</button>
             </div>
         </section>
         <section id="scoreboard">
             <h2>Scoreboard</h2>
-            <!-- Scorecard will be dynamically generated -->
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Score</th>
+                </tr>
+                <tr>
+                    <td>Ones</td>
+                    <td id="score-ones">-</td>
+                </tr>
+                <tr>
+                    <td>Twos</td>
+                    <td id="score-twos">-</td>
+                </tr>
+                <tr>
+                    <td>Threes</td>
+                    <td id="score-threes">-</td>
+                </tr>
+                <tr>
+                    <td>Fours</td>
+                    <td id="score-fours">-</td>
+                </tr>
+                <tr>
+                    <td>Fives</td>
+                    <td id="score-fives">-</td>
+                </tr>
+                <tr>
+                    <td>Sixes</td>
+                    <td id="score-sixes">-</td>
+                </tr>
+                <tr>
+                    <td>Total Score</td>
+                    <td id="total-score">0</td>
+                </tr>
+            </table>
         </section>
     </main>
     <footer>
-        <p>Created by Georgin</p>
+        <p>Created by [Your Name]</p>
     </footer>
     <script src="js/script.js"></script>
 </body>
