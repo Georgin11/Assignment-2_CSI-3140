@@ -41,6 +41,11 @@ main {
     align-items: center;
     justify-content: center;
     font-size: 1.5em;
+    cursor: pointer;
+}
+
+.dice.held {
+    background-color: #ff0;
 }
 
 #buttons-container {
@@ -50,6 +55,17 @@ main {
 #scoreboard {
     width: 80%;
     margin: 2em 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 0.5em;
+    text-align: center;
 }
 
 footer {
