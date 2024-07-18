@@ -1,52 +1,47 @@
-let dice = [0, 0, 0, 0, 0];
-let rollCount = 0;
-const maxRolls = 3;
 let currentPlayer = 1;
-let scores = {
-    player1: {
-        ones: null,
-        twos: null,
-        threes: null,
-        fours: null,
-        fives: null,
-        sixes: null,
-        threeKind: null,
-        fourKind: null,
-        fullHouse: null,
-        smallStraight: null,
-        largeStraight: null,
-        yahtzee: null,
-        chance: null
+let rollCount = 0;
+let dice = [0, 0, 0, 0, 0];
+const maxRolls = 3;
+const players = {
+    1: {
+        scores: initializeScores(),
+        totalScore: 0
     },
-    player2: {
-        ones: null,
-        twos: null,
-        threes: null,
-        fours: null,
-        fives: null,
-        sixes: null,
-        threeKind: null,
-        fourKind: null,
-        fullHouse: null,
-        smallStraight: null,
-        largeStraight: null,
-        yahtzee: null,
-        chance: null
+    2: {
+        scores: initializeScores(),
+        totalScore: 0
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const rollButton = document.getElementById('roll-button');
-    rollButton.addEventListener('click', rollDice);
+    document.getElementById('rollDiceButton').addEventListener('click', rollDice);
     updateDice();
     updatePlayerTurn();
     addScoreboardListeners();
 });
 
+function initializeScores() {
+    return {
+        ones: null,
+        twos: null,
+        threes: null,
+        fours: null,
+        fives: null,
+        sixes: null,
+        threeKind: null,
+        fourKind: null,
+        fullHouse: null,
+        smallStraight: null,
+        largeStraight: null,
+        yahtzee: null,
+        chance: null
+    };
+}
+
 function rollDice() {
     if (rollCount < maxRolls) {
         for (let i = 0; i < dice.length; i++) {
-            if (!document.getElementById(`die${i + 1}`).classList.contains('held')) {
+            if (!document.querySelector(`#die${i}`).classList.contains('held')) {
                 dice[i] = Math.floor(Math.random() * 6) + 1;
             }
         }
@@ -58,7 +53,7 @@ function rollDice() {
 
 function updateDice() {
     for (let i = 0; i < dice.length; i++) {
-        const die = document.getElementById(`die${i + 1}`);
+        const die = document.querySelector(`#die${i}`);
         die.textContent = dice[i];
         die.removeEventListener('click', toggleHold);
         die.addEventListener('click', () => toggleHold(die, i));
@@ -70,19 +65,19 @@ function toggleHold(die, index) {
 }
 
 function addScoreboardListeners() {
-    const scoreCells = document.querySelectorAll('.score-cell');
+    const scoreCells = document.querySelectorAll('.speculative-score');
     scoreCells.forEach(cell => {
         cell.addEventListener('click', () => scoreCategory(cell));
     });
 }
 
 function scoreCategory(cell) {
-    const [player, , category] = cell.id.split('-');
-    if (scores[player][category] === null) {
+    const category = cell.dataset.category;
+    if (players[currentPlayer].scores[category] === null) {
         const score = calculateScore(category);
-        scores[player][category] = score;
-        document.getElementById(`${player}-${category}-value`).textContent = score;
-        cell.disabled = true;
+        players[currentPlayer].scores[category] = score;
+        document.querySelector(`#player${currentPlayer}-${category}-score`).textContent = score;
+        cell.classList.add('disabled');
         updateScoreboard();
         switchPlayer();
     } else {
@@ -91,10 +86,10 @@ function scoreCategory(cell) {
 }
 
 function calculateAndDisplayScores() {
-    const categories = Object.keys(scores['player' + currentPlayer]);
+    const categories = Object.keys(players[currentPlayer].scores);
     categories.forEach(category => {
-        if (scores['player' + currentPlayer][category] === null) {
-            document.getElementById(`p${currentPlayer}-score-${category}`).textContent = calculateScore(category);
+        if (players[currentPlayer].scores[category] === null) {
+            document.querySelector(`#player${currentPlayer}-${category}-score`).textContent = calculateScore(category);
         }
     });
 }
@@ -150,12 +145,12 @@ function hasLargeStraight() {
 
 function updateScoreboard() {
     for (let player = 1; player <= 2; player++) {
-        for (let category in scores['player' + player]) {
-            if (scores['player' + player][category] !== null) {
-                document.getElementById(`p${player}-score-${category}`).textContent = scores['player' + player][category];
+        for (let category in players[player].scores) {
+            if (players[player].scores[category] !== null) {
+                document.querySelector(`#player${player}-${category}-score`).textContent = players[player].scores[category];
             }
         }
-        document.getElementById(`p${player}-total-score`).textContent = Object.values(scores['player' + player]).reduce((a, b) => a + (b || 0), 0);
+        document.querySelector(`#player${player}-total-score`).textContent = Object.values(players[player].scores).reduce((a, b) => a + (b || 0), 0);
     }
 }
 
@@ -166,7 +161,7 @@ function switchPlayer() {
     const diceElements = document.querySelectorAll('.dice');
     diceElements.forEach(die => die.classList.remove('held'));
 
-    if (Object.values(scores['player1']).every(score => score !== null) && Object.values(scores['player2']).every(score => score !== null)) {
+    if (Object.values(players[1].scores).every(score => score !== null) && Object.values(players[2].scores).every(score => score !== null)) {
         declareWinner();
     } else {
         currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -175,12 +170,12 @@ function switchPlayer() {
 }
 
 function updatePlayerTurn() {
-    document.getElementById('player-turn').textContent = `Player ${currentPlayer}'s turn`;
+    document.querySelector('#player-turn').textContent = `Player ${currentPlayer}'s turn`;
 }
 
 function declareWinner() {
-    const player1Score = Object.values(scores.player1).reduce((a, b) => a + (b || 0), 0);
-    const player2Score = Object.values(scores.player2).reduce((a, b) => a + (b || 0), 0);
+    const player1Score = Object.values(players[1].scores).reduce((a, b) => a + (b || 0), 0);
+    const player2Score = Object.values(players[2].scores).reduce((a, b) => a + (b || 0), 0);
     if (player1Score > player2Score) {
         alert(`Player 1 wins with ${player1Score} points!`);
     } else if (player2Score > player1Score) {
