@@ -37,11 +37,10 @@ let scores = {
 
 document.addEventListener('DOMContentLoaded', () => {
     const rollButton = document.getElementById('roll-button');
-    const scoreButton = document.getElementById('score-button');
     rollButton.addEventListener('click', rollDice);
-    scoreButton.addEventListener('click', showScoringOptions);
     updateDice();
     updatePlayerTurn();
+    addScoreboardListeners();
 });
 
 function rollDice() {
@@ -53,9 +52,9 @@ function rollDice() {
         }
         rollCount++;
         updateDice();
-    }
-    if (rollCount === maxRolls) {
-        document.getElementById('score-button').disabled = false;
+        if (rollCount === maxRolls) {
+            calculateAndDisplayScores();
+        }
     }
 }
 
@@ -71,26 +70,31 @@ function toggleHold(die, index) {
     die.classList.toggle('held');
 }
 
-function showScoringOptions() {
-    const categories = Object.keys(scores['player' + currentPlayer]);
-    const availableCategories = categories.filter(cat => scores['player' + currentPlayer][cat] === null);
-
-    const scoreOptions = availableCategories.map(cat => {
-        return {
-            category: cat,
-            score: calculateScore(cat)
-        };
+function addScoreboardListeners() {
+    const scoreCells = document.querySelectorAll('.score-cell');
+    scoreCells.forEach(cell => {
+        cell.addEventListener('click', () => scoreCategory(cell));
     });
+}
 
-    let choice = prompt("Choose a category to score:\n" + scoreOptions.map(opt => `${opt.category}: ${opt.score}`).join('\n'));
-    
-    if (choice && availableCategories.includes(choice)) {
-        scores['player' + currentPlayer][choice] = calculateScore(choice);
+function scoreCategory(cell) {
+    const [player, category] = cell.id.split('-').slice(0, 2);
+    if (scores[player][category] === null) {
+        scores[player][category] = parseInt(cell.textContent);
         updateScoreboard();
         switchPlayer();
     } else {
-        alert("Invalid choice. Please choose an available category.");
+        alert("This category has already been scored.");
     }
+}
+
+function calculateAndDisplayScores() {
+    const categories = Object.keys(scores['player' + currentPlayer]);
+    categories.forEach(category => {
+        if (scores['player' + currentPlayer][category] === null) {
+            document.getElementById(`p${currentPlayer}-score-${category}`).textContent = calculateScore(category);
+        }
+    });
 }
 
 function calculateScore(category) {
@@ -159,7 +163,6 @@ function switchPlayer() {
     updateDice();
     const diceElements = document.querySelectorAll('.dice');
     diceElements.forEach(die => die.classList.remove('held'));
-    document.getElementById('score-button').disabled = true;
 
     if (Object.values(scores['player1']).every(score => score !== null) && Object.values(scores['player2']).every(score => score !== null)) {
         declareWinner();
