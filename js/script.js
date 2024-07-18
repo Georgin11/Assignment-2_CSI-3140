@@ -52,9 +52,7 @@ function rollDice() {
         }
         rollCount++;
         updateDice();
-        if (rollCount === maxRolls) {
-            calculateAndDisplayScores();
-        }
+        calculateAndDisplayScores();
     }
 }
 
@@ -80,7 +78,9 @@ function addScoreboardListeners() {
 function scoreCategory(cell) {
     const [player, category] = cell.id.split('-').slice(0, 2);
     if (scores[player][category] === null) {
-        scores[player][category] = parseInt(cell.textContent);
+        const score = calculateScore(category);
+        scores[player][category] = score;
+        document.getElementById(`${player}-${category}-value`).textContent = score;
         updateScoreboard();
         switchPlayer();
     } else {
