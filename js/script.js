@@ -1,28 +1,47 @@
 let dice = [0, 0, 0, 0, 0];
 let rollCount = 0;
 const maxRolls = 3;
+let currentPlayer = 1;
 let scores = {
-    ones: null,
-    twos: null,
-    threes: null,
-    fours: null,
-    fives: null,
-    sixes: null,
-    threeKind: null,
-    fourKind: null,
-    fullHouse: null,
-    smallStraight: null,
-    largeStraight: null,
-    yahtzee: null,
-    chance: null
+    player1: {
+        ones: null,
+        twos: null,
+        threes: null,
+        fours: null,
+        fives: null,
+        sixes: null,
+        threeKind: null,
+        fourKind: null,
+        fullHouse: null,
+        smallStraight: null,
+        largeStraight: null,
+        yahtzee: null,
+        chance: null
+    },
+    player2: {
+        ones: null,
+        twos: null,
+        threes: null,
+        fours: null,
+        fives: null,
+        sixes: null,
+        threeKind: null,
+        fourKind: null,
+        fullHouse: null,
+        smallStraight: null,
+        largeStraight: null,
+        yahtzee: null,
+        chance: null
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const rollButton = document.getElementById('roll-button');
     const scoreButton = document.getElementById('score-button');
     rollButton.addEventListener('click', rollDice);
-    scoreButton.addEventListener('click', () => showScoringOptions());
+    scoreButton.addEventListener('click', showScoringOptions);
     updateDice();
+    updatePlayerTurn();
 });
 
 function rollDice() {
@@ -53,8 +72,8 @@ function toggleHold(die, index) {
 }
 
 function showScoringOptions() {
-    const categories = Object.keys(scores);
-    const availableCategories = categories.filter(cat => scores[cat] === null);
+    const categories = Object.keys(scores['player' + currentPlayer]);
+    const availableCategories = categories.filter(cat => scores['player' + currentPlayer][cat] === null);
 
     const scoreOptions = availableCategories.map(cat => {
         return {
@@ -66,9 +85,9 @@ function showScoringOptions() {
     let choice = prompt("Choose a category to score:\n" + scoreOptions.map(opt => `${opt.category}: ${opt.score}`).join('\n'));
     
     if (choice && availableCategories.includes(choice)) {
-        scores[choice] = calculateScore(choice);
+        scores['player' + currentPlayer][choice] = calculateScore(choice);
         updateScoreboard();
-        resetTurn();
+        switchPlayer();
     } else {
         alert("Invalid choice. Please choose an available category.");
     }
@@ -124,19 +143,44 @@ function hasLargeStraight() {
 }
 
 function updateScoreboard() {
-    for (let category in scores) {
-        if (scores[category] !== null) {
-            document.getElementById(`score-${category}`).textContent = scores[category];
+    for (let player = 1; player <= 2; player++) {
+        for (let category in scores['player' + player]) {
+            if (scores['player' + player][category] !== null) {
+                document.getElementById(`p${player}-score-${category}`).textContent = scores['player' + player][category];
+            }
         }
+        document.getElementById(`p${player}-total-score`).textContent = Object.values(scores['player' + player]).reduce((a, b) => a + (b || 0), 0);
     }
-    document.getElementById('total-score').textContent = Object.values(scores).reduce((a, b) => a + (b || 0), 0);
 }
 
-function resetTurn() {
+function switchPlayer() {
     rollCount = 0;
     dice = [0, 0, 0, 0, 0];
     updateDice();
     const diceElements = document.querySelectorAll('.dice');
     diceElements.forEach(die => die.classList.remove('held'));
     document.getElementById('score-button').disabled = true;
+
+    if (Object.values(scores['player1']).every(score => score !== null) && Object.values(scores['player2']).every(score => score !== null)) {
+        declareWinner();
+    } else {
+        currentPlayer = currentPlayer === 1 ? 2 : 1;
+        updatePlayerTurn();
+    }
+}
+
+function updatePlayerTurn() {
+    document.getElementById('player-turn').textContent = `Player ${currentPlayer}'s turn`;
+}
+
+function declareWinner() {
+    const player1Score = Object.values(scores.player1).reduce((a, b) => a + (b || 0), 0);
+    const player2Score = Object.values(scores.player2).reduce((a, b) => a + (b || 0), 0);
+    if (player1Score > player2Score) {
+        alert(`Player 1 wins with ${player1Score} points!`);
+    } else if (player2Score > player1Score) {
+        alert(`Player 2 wins with ${player2Score} points!`);
+    } else {
+        alert(`It's a tie with ${player1Score} points each!`);
+    }
 }
