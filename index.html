@@ -23,71 +23,141 @@
                 <button id="roll-button">Roll Dice</button>
                 <button id="score-button" disabled>Score</button>
             </div>
+            <div id="player-turn">Player 1's turn</div>
         </section>
-        <section id="scoreboard">
-            <h2>Scoreboard</h2>
-            <table>
-                <tr>
-                    <th>Category</th>
-                    <th>Score</th>
-                </tr>
-                <tr>
-                    <td>Ones</td>
-                    <td id="score-ones">-</td>
-                </tr>
-                <tr>
-                    <td>Twos</td>
-                    <td id="score-twos">-</td>
-                </tr>
-                <tr>
-                    <td>Threes</td>
-                    <td id="score-threes">-</td>
-                </tr>
-                <tr>
-                    <td>Fours</td>
-                    <td id="score-fours">-</td>
-                </tr>
-                <tr>
-                    <td>Fives</td>
-                    <td id="score-fives">-</td>
-                </tr>
-                <tr>
-                    <td>Sixes</td>
-                    <td id="score-sixes">-</td>
-                </tr>
-                <tr>
-                    <td>Three of a Kind</td>
-                    <td id="score-three-kind">-</td>
-                </tr>
-                <tr>
-                    <td>Four of a Kind</td>
-                    <td id="score-four-kind">-</td>
-                </tr>
-                <tr>
-                    <td>Full House</td>
-                    <td id="score-full-house">-</td>
-                </tr>
-                <tr>
-                    <td>Small Straight</td>
-                    <td id="score-small-straight">-</td>
-                </tr>
-                <tr>
-                    <td>Large Straight</td>
-                    <td id="score-large-straight">-</td>
-                </tr>
-                <tr>
-                    <td>Yahtzee</td>
-                    <td id="score-yahtzee">-</td>
-                </tr>
-                <tr>
-                    <td>Chance</td>
-                    <td id="score-chance">-</td>
-                </tr>
-                <tr>
-                    <td>Total Score</td>
-                    <td id="total-score">0</td>
-                </tr>
-            </table>
+        <section id="scoreboards">
+            <div id="player1-scoreboard">
+                <h2>Player 1 Scoreboard</h2>
+                <table>
+                    <!-- Player 1 Scoreboard -->
+                    <tr>
+                        <th>Category</th>
+                        <th>Score</th>
+                    </tr>
+                    <tr>
+                        <td>Ones</td>
+                        <td id="p1-score-ones">-</td>
+                    </tr>
+                    <tr>
+                        <td>Twos</td>
+                        <td id="p1-score-twos">-</td>
+                    </tr>
+                    <tr>
+                        <td>Threes</td>
+                        <td id="p1-score-threes">-</td>
+                    </tr>
+                    <tr>
+                        <td>Fours</td>
+                        <td id="p1-score-fours">-</td>
+                    </tr>
+                    <tr>
+                        <td>Fives</td>
+                        <td id="p1-score-fives">-</td>
+                    </tr>
+                    <tr>
+                        <td>Sixes</td>
+                        <td id="p1-score-sixes">-</td>
+                    </tr>
+                    <tr>
+                        <td>Three of a Kind</td>
+                        <td id="p1-score-three-kind">-</td>
+                    </tr>
+                    <tr>
+                        <td>Four of a Kind</td>
+                        <td id="p1-score-four-kind">-</td>
+                    </tr>
+                    <tr>
+                        <td>Full House</td>
+                        <td id="p1-score-full-house">-</td>
+                    </tr>
+                    <tr>
+                        <td>Small Straight</td>
+                        <td id="p1-score-small-straight">-</td>
+                    </tr>
+                    <tr>
+                        <td>Large Straight</td>
+                        <td id="p1-score-large-straight">-</td>
+                    </tr>
+                    <tr>
+                        <td>Yahtzee</td>
+                        <td id="p1-score-yahtzee">-</td>
+                    </tr>
+                    <tr>
+                        <td>Chance</td>
+                        <td id="p1-score-chance">-</td>
+                    </tr>
+                    <tr>
+                        <td>Total Score</td>
+                        <td id="p1-total-score">0</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="player2-scoreboard">
+                <h2>Player 2 Scoreboard</h2>
+                <table>
+                    <!-- Player 2 Scoreboard -->
+                    <tr>
+                        <th>Category</th>
+                        <th>Score</th>
+                    </tr>
+                    <tr>
+                        <td>Ones</td>
+                        <td id="p2-score-ones">-</td>
+                    </tr>
+                    <tr>
+                        <td>Twos</td>
+                        <td id="p2-score-twos">-</td>
+                    </tr>
+                    <tr>
+                        <td>Threes</td>
+                        <td id="p2-score-threes">-</td>
+                    </tr>
+                    <tr>
+                        <td>Fours</td>
+                        <td id="p2-score-fours">-</td>
+                    </tr>
+                    <tr>
+                        <td>Fives</td>
+                        <td id="p2-score-fives">-</td>
+                    </tr>
+                    <tr>
+                        <td>Sixes</td>
+                        <td id="p2-score-sixes">-</td>
+                    </tr>
+                    <tr>
+                        <td>Three of a Kind</td>
+                        <td id="p2-score-three-kind">-</td>
+                    </tr>
+                    <tr>
+                        <td>Four of a Kind</td>
+                        <td id="p2-score-four-kind">-</td>
+                    </tr>
+                    <tr>
+                        <td>Full House</td>
+                        <td id="p2-score-full-house">-</td>
+                    </tr>
+                    <tr>
+                        <td>Small Straight</td>
+                        <td id="p2-score-small-straight">-</td>
+                    </tr>
+                    <tr>
+                        <td>Large Straight</td>
+                        <td id="p2-score-large-straight">-</td>
+                    </tr>
+                    <tr>
+                        <td>Yahtzee</td>
+                        <td id="p2-score-yahtzee">-</td>
+                    </tr>
+                    <tr>
+                        <td>Chance</td>
+                        <td id="p2-score-chance">-</td>
+                    </tr>
+                    <tr>
+                        <td>Total Score</td>
+                        <td id="p2-total-score">0</td>
+                    </tr>
+                </table>
+            </div>
         </section>
     </main>
     <footer>
