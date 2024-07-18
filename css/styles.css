@@ -82,6 +82,11 @@ th, td {
     font-size: 1em;
 }
 
+.score-cell:disabled {
+    cursor: not-allowed;
+    background-color: #ddd;
+}
+
 footer {
     background-color: #4CAF50;
     color: white;
