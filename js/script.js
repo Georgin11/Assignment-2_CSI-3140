@@ -81,6 +81,7 @@ function scoreCategory(cell) {
         const score = calculateScore(category);
         scores[player][category] = score;
         document.getElementById(`${player}-${category}-value`).textContent = score;
+        document.getElementById(`p${currentPlayer}-score-${category}`).disabled = true; // Disable the button after selecting
         updateScoreboard();
         switchPlayer();
     } else {
