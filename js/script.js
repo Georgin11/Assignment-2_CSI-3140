@@ -76,7 +76,7 @@ function addScoreboardListeners() {
 }
 
 function scoreCategory(cell) {
-    const [player, category] = cell.id.split('-').slice(0, 2);
+    const [player, , category] = cell.id.split('-');
     if (scores[player][category] === null) {
         const score = calculateScore(category);
         scores[player][category] = score;
