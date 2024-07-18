@@ -62,11 +62,21 @@ function scoreCategory(cell) {
         players[currentPlayer].scores[category] = score;
         document.getElementById(`player${currentPlayer}-${category}-score`).textContent = score;
         cell.classList.add('disabled');
+        resetUnselectedScores();
         updateScoreboard();
         switchPlayer();
     } else {
         alert("This category has already been scored.");
     }
+}
+
+function resetUnselectedScores() {
+    const categories = Object.keys(players[currentPlayer].scores);
+    categories.forEach(category => {
+        if (players[currentPlayer].scores[category] === null) {
+            document.getElementById(`player${currentPlayer}-${category}-score`).textContent = '-';
+        }
+    });
 }
 
 function calculateAndDisplayScores() {
