@@ -60,6 +60,7 @@ function updateDice() {
     for (let i = 0; i < dice.length; i++) {
         const die = document.getElementById(`die${i + 1}`);
         die.textContent = dice[i];
+        die.removeEventListener('click', toggleHold);
         die.addEventListener('click', () => toggleHold(die, i));
     }
 }
@@ -81,7 +82,7 @@ function scoreCategory(cell) {
         const score = calculateScore(category);
         scores[player][category] = score;
         document.getElementById(`${player}-${category}-value`).textContent = score;
-        document.getElementById(`p${currentPlayer}-score-${category}`).disabled = true; // Disable the button after selecting
+        cell.disabled = true;
         updateScoreboard();
         switchPlayer();
     } else {
