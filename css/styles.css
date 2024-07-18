@@ -74,6 +74,14 @@ th, td {
     text-align: center;
 }
 
+.score-cell {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
 footer {
     background-color: #4CAF50;
     color: white;
