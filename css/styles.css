@@ -52,9 +52,15 @@ main {
     margin-top: 1em;
 }
 
-#scoreboard {
+#scoreboards {
+    display: flex;
+    justify-content: space-around;
     width: 80%;
     margin: 2em 0;
+}
+
+.scoreboard {
+    width: 45%;
 }
 
 table {
