@@ -39,13 +39,13 @@ function updateDice() {
     for (let i = 0; i < dice.length; i++) {
         const die = document.querySelector(`#die${i}`);
         die.textContent = dice[i];
-        die.removeEventListener('click', toggleHold);
-        die.addEventListener('click', () => toggleHold(die, i));
+        die.removeEventListener('click', toggleHold);  // Ensure no duplicate event listeners
+        die.addEventListener('click', () => toggleHold(die, i));  // Add event listener
     }
 }
 
 function toggleHold(die, index) {
-    die.classList.toggle('held');
+    die.classList.toggle('held');  // Toggle the 'held' class to show selection
 }
 
 function addScoreboardListeners() {
