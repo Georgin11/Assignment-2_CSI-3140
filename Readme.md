@@ -9,6 +9,6 @@
 
 ## Screenshots
 
-![Initial State](docs/screenshot/initial_state.png)
+![Initial State](docs/screenshot/initial_stage.png)
 ![During Play](docs/screenshot/during_play.png)
 ![Game Over](docs/screenshot/game_over.png)
